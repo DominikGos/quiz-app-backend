@@ -15,8 +15,8 @@ class Category extends Model
         'description',
     ];
 
-    public function quizzess(): BelongsToMany
+    public function quizzes(): BelongsToMany
     {
-        return $this->belongsToMany(Quiz::class);
+        return $this->belongsToMany(Quiz::class, 'quiz_category');
     }
 }
