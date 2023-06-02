@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuizController;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -21,8 +22,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::group(['as' => 'quizzes', 'prefix' => '/quizzes'], function() {
-    Route::get('', [QuizController::class, 'index'])->name('.index');
+Route::group(['as' => 'quizzes.', 'prefix' => '/quizzes'], function() {
+    Route::get('', [QuizController::class, 'index'])->name('index');
 
-    Route::get('/{id}', [QuizController::class, 'show'])->name('.get');
+    Route::get('/{id}', [QuizController::class, 'show'])->name('get');
+});
+
+Route::group(['as' => 'questions.', 'prefix' => '/questions'], function() {
+    Route::get('', [QuestionController::class, 'index'])->name('index');
+
+    Route::get('/{id}', [QuestionController::class, 'show'])->name('get');
 });

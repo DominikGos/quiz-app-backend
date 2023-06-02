@@ -26,5 +26,4 @@ class QuizController extends Controller
             'quiz' => QuizResource::make($quiz)
         ]);
     }
-
 }
