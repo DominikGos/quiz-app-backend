@@ -20,7 +20,7 @@ class QuizController extends Controller
 
     public function show(int $id): JsonResponse
     {
-        $quiz = Quiz::with(['user'])->findOrFail($id);
+        $quiz = Quiz::with(['user', 'categories'])->findOrFail($id);
 
         return new JsonResponse([
             'quiz' => QuizResource::make($quiz)
