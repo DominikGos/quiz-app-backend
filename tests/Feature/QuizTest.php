@@ -16,7 +16,8 @@ class QuizTest extends TestCase
 
         $response
             ->assertOk()
-            ->assertJsonFragment(['name' => $this->quiz->name]);
+            ->assertJsonIsObject('quiz')
+            ->assertJsonFragment(['name' => $quiz->name]);
     }
 
     public function test_user_gets_error_if_he_tries_to_viewing_quiz_that_does_not_exist(): void
