@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuizController;
@@ -19,8 +21,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->group(function() {
+    Route::get('/test', function() {
+        echo 'Token works';
+    });
 });
 
 Route::group(['as' => 'quizzes.', 'prefix' => '/quizzes'], function() {
@@ -42,3 +46,8 @@ Route::group(['as' => 'answers.', 'prefix' => '/answers'], function() {
 });
 
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+
+Route::post('/register', [RegisterController::class, 'register'])->name('register');
+
+Route::post('/login', [LoginController::class, 'login'])->name('login');
+
