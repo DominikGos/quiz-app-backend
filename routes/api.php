@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuizController;
 use App\Models\User;
@@ -39,3 +40,5 @@ Route::group(['as' => 'answers.', 'prefix' => '/answers'], function() {
 
     Route::get('/{id}', [AnswerController::class, 'show'])->name('get');
 });
+
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
