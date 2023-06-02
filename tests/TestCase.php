@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Models\Answer;
 use App\Models\Question;
 use App\Models\Quiz;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -15,6 +16,7 @@ abstract class TestCase extends BaseTestCase
     protected $seed = true;
     protected Quiz $quiz;
     protected Question $question;
+    protected Answer $answer;
 
     function setUp(): void
     {
@@ -22,5 +24,6 @@ abstract class TestCase extends BaseTestCase
 
         $this->quiz = Quiz::first();
         $this->question = Question::first();
+        $this->answer = Answer::first();
     }
 }
