@@ -22,9 +22,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->group(function() {
-    Route::get('/test', function() {
-        echo 'Token works';
-    });
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });
 
 Route::group(['as' => 'quizzes.', 'prefix' => '/quizzes'], function() {

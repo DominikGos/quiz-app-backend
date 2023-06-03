@@ -24,4 +24,24 @@ class LoginTest extends TestCase
         $this->assertAuthenticated('sanctum');
     }
 
+    public function test_authenticated_user_can_logout(): void
+    {
+        $user = $this->user;
+
+        Sanctum::actingAs($user);
+
+        $response = $this->postJson(route('logout'));
+
+        $response
+            ->assertNoContent();
+    }
+
+    public function test_unauthenticated_user_cannot_logout(): void
+    {
+        $response = $this->postJson(route('logout'));
+
+        $response
+            ->assertUnauthorized();
+    }
+
 }

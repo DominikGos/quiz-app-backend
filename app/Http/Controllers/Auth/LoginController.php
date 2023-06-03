@@ -28,4 +28,12 @@ class LoginController extends Controller
             ],
         ], 422);
     }
+
+    public function logout(): JsonResponse
+    {
+        $user = Auth::user();
+        $user->currentAccessToken()->delete();
+
+        return new JsonResponse(null, 204);
+    }
 }
