@@ -2,8 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Models\Quiz;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class QuizTest extends TestCase
@@ -40,5 +42,36 @@ class QuizTest extends TestCase
         $response
             ->assertOk()
             ->assertJsonIsArray('quizzes');
+    }
+
+    public function test_user_can_store_quiz_with_correct_credentials(): void
+    {
+        $user = $this->user;
+
+        Sanctum::actingAs($user);
+
+        $quiz = Quiz::factory()->for($user)->make();
+
+        $response = $this->postJson(route('quizzes.store'), [
+            'name' => $quiz->name
+        ]);
+
+        $response
+            ->assertCreated()
+            ->assertJsonPath('quiz.name', $quiz->name);
+    }
+
+    public function test_user_cannot_store_quiz_with_incorrect_credentials(): void
+    {
+        $user = $this->user;
+
+        Sanctum::actingAs($user);
+
+        $response = $this->postJson(route('quizzes.store'), [
+            'name' => null
+        ]);
+
+        $response
+            ->assertUnprocessable();
     }
 }
