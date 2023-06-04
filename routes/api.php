@@ -23,6 +23,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+    Route::group(['as' => 'quizzes.', 'prefix' => '/quizzes'], function() {
+        Route::post('', [QuizController::class, 'store'])->name('store');
+
+    });
+
 });
 
 Route::group(['as' => 'quizzes.', 'prefix' => '/quizzes'], function() {
