@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
         DB::table('answers')->truncate();
         Schema::enableForeignKeyConstraints();
 
-        $user = User::factory()->create();
+        $user = User::factory()->create(['name' => 'user', 'email' => 'user@email.com']);
 
         $quiz = Quiz::factory()->for($user)->create();
 
