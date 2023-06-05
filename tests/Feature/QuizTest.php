@@ -109,4 +109,30 @@ class QuizTest extends TestCase
             ->assertForbidden()
             ->assertJsonMissingPath('quiz.name');
     }
+
+    public function test_user_can_destroy_own_quiz(): void
+    {
+        $user = $this->user;
+        $quiz = $this->quiz;
+
+        Sanctum::actingAs($user);
+
+        $response = $this->deleteJson(route('quizzes.destroy', $quiz->id));
+
+        $response
+            ->assertNoContent();
+    }
+
+    public function test_user_cannot_destroy_quiz_he_is_not_author_of(): void
+    {
+        $user = User::factory()->create();
+        $quiz = $this->quiz;
+
+        Sanctum::actingAs($user);
+
+        $response = $this->deleteJson(route('quizzes.destroy', $quiz->id));
+
+        $response
+            ->assertForbidden();
+    }
 }

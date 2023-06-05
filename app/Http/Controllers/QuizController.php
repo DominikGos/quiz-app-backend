@@ -56,4 +56,12 @@ class QuizController extends Controller
             'quiz' => QuizResource::make($quiz)
         ]);
     }
+
+    public function destroy(int $id): JsonResponse
+    {
+        $quiz = Quiz::findOrFail($id);
+        $quiz->delete();
+
+        return new JsonResponse(null, 204);
+    }
 }

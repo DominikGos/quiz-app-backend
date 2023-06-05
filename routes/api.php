@@ -28,6 +28,8 @@ Route::middleware('auth:sanctum')->group(function() {
         Route::post('', [QuizController::class, 'store'])->name('store');
 
         Route::put('/{id}', [QuizController::class, 'update'])->name('update');
+
+        Route::delete('/{id}', [QuizController::class, 'destroy'])->name('destroy');
     });
 
     Route::group(['as' => 'questions.', 'prefix' => '/questions'], function() {
