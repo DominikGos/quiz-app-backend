@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Quiz;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
@@ -73,5 +74,39 @@ class QuizTest extends TestCase
 
         $response
             ->assertUnprocessable();
+    }
+
+    public function test_user_can_update_own_quiz(): void
+    {
+        $user = $this->user;
+        $updatedQuizData = Quiz::factory()->make();
+        $quiz = $this->quiz;
+
+        Sanctum::actingAs($user);
+
+        $response = $this->putJson(route('quizzes.update', $quiz->id), [
+            'name' => $updatedQuizData->name
+        ]);
+
+        $response
+            ->assertOk()
+            ->assertJsonPath('quiz.name', $updatedQuizData->name);
+    }
+
+    public function test_user_cannot_update_quiz_he_is_not_author_of(): void
+    {
+        $user = User::factory()->create();
+        $updatedQuizData = Quiz::factory()->make();
+        $quiz = $this->quiz;
+
+        Sanctum::actingAs($user);
+
+        $response = $this->putJson(route('quizzes.update', $quiz->id), [
+            'name' => $updatedQuizData->name
+        ]);
+
+        $response
+            ->assertForbidden()
+            ->assertJsonMissingPath('quiz.name');
     }
 }
