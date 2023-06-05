@@ -32,6 +32,6 @@ class AnswerController extends Controller
 
         return new JsonResponse([
             'answer' => AnswerResource::make($answer)
-        ]);
+        ], 201);
     }
 }
