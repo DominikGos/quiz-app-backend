@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\QuizStoreRequest;
-use App\Http\Requests\QuizUpdateRequest;
+use App\Http\Requests\Quiz\QuizStoreRequest;
+use App\Http\Requests\Quiz\QuizUpdateRequest;
 use App\Http\Resources\QuizResource;
 use App\Models\Category;
 use App\Models\Quiz;

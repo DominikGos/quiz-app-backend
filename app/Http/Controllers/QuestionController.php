@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\QuestionStoreRequest;
+use App\Http\Requests\Question\QuestionStoreRequest;
 use App\Http\Resources\QuestionResource;
 use App\Models\Question;
 use App\Models\Quiz;
