@@ -22,7 +22,7 @@ class QuestionController extends Controller
 
     public function show(int $id): JsonResponse
     {
-        $question = Question::findOrFail($id);
+        $question = Question::with(['answers'])->findOrFail($id);
 
         return new JsonResponse([
             'question' => QuestionResource::make($question)

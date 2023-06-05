@@ -24,6 +24,7 @@ class AnswerController extends Controller
     public function store(AnswerStoreRequest $request): JsonResponse
     {
         //check if user is author of the quiz
+        //chcek if question has less than 5 answers
         $question = Question::findOrFail($request->question_id);
         $answer = new Answer($request->validated());
         $answer->question()->associate($question);

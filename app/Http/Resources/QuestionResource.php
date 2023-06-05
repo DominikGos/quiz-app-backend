@@ -20,7 +20,8 @@ class QuestionResource extends JsonResource
             'image' => $this->image,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
-            'quiz' => QuizResource::make($this->whenLoaded('quiz'))
+            'quiz' => QuizResource::make($this->whenLoaded('quiz')),
+            'answers' => AnswerResource::collection($this->whenLoaded('answers')),
         ];
     }
 }
