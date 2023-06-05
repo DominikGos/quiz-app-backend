@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\QuizStoreRequest;
+use App\Http\Requests\QuizUpdateRequest;
 use App\Http\Resources\QuizResource;
 use App\Models\Category;
 use App\Models\Quiz;
@@ -41,5 +42,17 @@ class QuizController extends Controller
         return new JsonResponse([
             'quiz' => QuizResource::make($quiz)
         ], 201);
+    }
+
+    public function update(QuizUpdateRequest $request, int $id): JsonResponse
+    {
+        $quiz = Quiz::with(['categories'])->findOrFail($id);
+        $quiz->update($request->validated());
+        $quiz->save();
+        $quiz->categories()->sync($request->category_ids);
+
+        return new JsonResponse([
+            'quiz' => QuizResource::make($quiz)
+        ]);
     }
 }
