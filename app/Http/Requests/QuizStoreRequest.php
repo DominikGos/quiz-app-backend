@@ -22,9 +22,11 @@ class QuizStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'string|min:3|max:255|required',
+            'name' => 'string|min:3|max:255|required|unique:quizzes,name',
             'description' => 'string|min:3|nullable',
-            'image' => 'string|max:255|nullable'
+            'image' => 'string|max:255|nullable',
+            'category_ids' => 'array|nullable',
+            'category_ids.*' => 'integer|min:1'
         ];
     }
 }
