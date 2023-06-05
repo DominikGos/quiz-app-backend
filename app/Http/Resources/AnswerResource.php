@@ -18,8 +18,7 @@ class AnswerResource extends JsonResource
             'content' => $this->content,
             'image' => $this->image,
             'isCorrect' => $this->is_correct,
-            'createdAt' => $this->created_at,
-            'updatedAt' => $this->updated_at,
+            'timestamps' => TimestampsResource::make($this),
             'question' => QuestionResource::make($this->whenLoaded('question')),
         ];
     }

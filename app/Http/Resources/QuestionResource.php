@@ -18,8 +18,7 @@ class QuestionResource extends JsonResource
             'id' => $this->id,
             'content' => $this->content,
             'image' => $this->image,
-            'createdAt' => $this->created_at,
-            'updatedAt' => $this->updated_at,
+            'timestamps' => TimestampsResource::make($this),
             'quiz' => QuizResource::make($this->whenLoaded('quiz')),
             'answers' => AnswerResource::collection($this->whenLoaded('answers')),
         ];
