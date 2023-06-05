@@ -34,17 +34,6 @@ class QuestionTest extends TestCase
             ->assertJsonMissingPath('question.id');
     }
 
-    public function test_user_can_view_question_list(): void
-    {
-        $questions[] = $this->question;
-
-        $response = $this->getJson(route('questions.index'));
-
-        $response
-            ->assertOk()
-            ->assertJsonIsArray('questions');
-    }
-
     public function test_user_can_store_question_with_correct_credentials(): void
     {
         $user = $this->user;

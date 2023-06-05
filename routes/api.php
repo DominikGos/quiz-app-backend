@@ -44,14 +44,10 @@ Route::group(['as' => 'quizzes.', 'prefix' => '/quizzes'], function() {
 });
 
 Route::group(['as' => 'questions.', 'prefix' => '/questions'], function() {
-    Route::get('', [QuestionController::class, 'index'])->name('index');
-
     Route::get('/{id}', [QuestionController::class, 'show'])->name('get');
 });
 
 Route::group(['as' => 'answers.', 'prefix' => '/answers'], function() {
-    Route::get('', [AnswerController::class, 'index'])->name('index');
-
     Route::get('/{id}', [AnswerController::class, 'show'])->name('get');
 });
 

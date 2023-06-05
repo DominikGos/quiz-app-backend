@@ -21,6 +21,7 @@ class QuizResource extends JsonResource
             'image' => $this->image,
             'timestamps' => TimestampsResource::make($this),
             'user' => $this->whenLoaded('user'),
+            'questions' => QuestionResource::collection($this->whenLoaded('questions')),
             'categories' => CategoryResource::collection($this->whenLoaded('categories'))
         ];
     }

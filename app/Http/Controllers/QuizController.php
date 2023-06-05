@@ -22,7 +22,7 @@ class QuizController extends Controller
 
     public function show(int $id): JsonResponse
     {
-        $quiz = Quiz::with(['user', 'categories'])->findOrFail($id);
+        $quiz = Quiz::with(['user', 'categories', 'questions'])->findOrFail($id);
 
         return new JsonResponse([
             'quiz' => QuizResource::make($quiz)
@@ -34,7 +34,7 @@ class QuizController extends Controller
         $quiz = new Quiz($request->validated());
         $quiz->user()->associate(Auth::user());
         $quiz->save();
-        
+
         return new JsonResponse([
             'quiz' => QuizResource::make($quiz)
         ], 201);
