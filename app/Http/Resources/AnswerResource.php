@@ -14,6 +14,13 @@ class AnswerResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'content' => $this->content,
+            'image' => $this->image,
+            'isCorrect' => $this->is_correct,
+            'createdAt' => $this->created_at,
+            'updatedAt' => $this->updated_at,
+            'question' => QuestionResource::make($this->whenLoaded('question')),
+        ];
     }
 }

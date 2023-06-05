@@ -31,6 +31,10 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::group(['as' => 'questions.', 'prefix' => '/questions'], function() {
         Route::post('', [QuestionController::class, 'store'])->name('store');
     });
+
+    Route::group(['as' => 'answers.', 'prefix' => '/answers'], function() {
+        Route::post('', [AnswerController::class, 'store'])->name('store');
+    });
 });
 
 Route::group(['as' => 'quizzes.', 'prefix' => '/quizzes'], function() {
