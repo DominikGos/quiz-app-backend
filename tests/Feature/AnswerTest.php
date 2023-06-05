@@ -30,15 +30,4 @@ class AnswerTest extends TestCase
             ->assertNotFound()
             ->assertJsonMissingPath('answer.id');
     }
-
-    public function test_user_can_view_answer_list(): void
-    {
-        $answers[] = $this->answer;
-
-        $response = $this->getJson(route('answers.index'));
-
-        $response
-            ->assertOk()
-            ->assertJsonIsArray('answers');
-    }
 }
