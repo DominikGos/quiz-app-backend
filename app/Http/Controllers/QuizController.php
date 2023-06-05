@@ -33,6 +33,7 @@ class QuizController extends Controller
 
     public function store(QuizStoreRequest $request): JsonResponse
     {
+        // dd($request->all(), $request->validated());
         $quiz = new Quiz($request->validated());
         $quiz->user()->associate(Auth::user());
         $quiz->save();

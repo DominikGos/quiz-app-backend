@@ -7,6 +7,8 @@ use Illuminate\Validation\Rule;
 
 class QuizUpdateRequest extends FormRequest
 {
+    use QuizValidation;
+    
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -22,14 +24,15 @@ class QuizUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => [
                 'string', 'min:3', 'max:255', 'required', Rule::unique('quizzes', 'name')->ignore($this->route('id'))
             ],
-            'description' => 'string|min:3|nullable',
-            'image' => 'string|max:255|nullable',
-            'category_ids' => 'array|nullable',
-            'category_ids.*' => 'integer|min:1'
+        ];
+
+        return [
+            ...$rules,
+            ...$this->quizValidationRules()
         ];
     }
 }

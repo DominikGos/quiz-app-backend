@@ -6,6 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class QuizStoreRequest extends FormRequest
 {
+    use QuizValidation;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -21,12 +23,13 @@ class QuizStoreRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => 'string|min:3|max:255|required|unique:quizzes,name',
-            'description' => 'string|min:3|nullable',
-            'image' => 'string|max:255|nullable',
-            'category_ids' => 'array|nullable',
-            'category_ids.*' => 'integer|min:1'
+        ];
+
+        return [
+            ...$rules,
+            ...$this->quizValidationRules()
         ];
     }
 }
