@@ -49,7 +49,6 @@ class QuizController extends Controller
     {
         $quiz = Quiz::with(['categories'])->findOrFail($id);
         $quiz->update($request->validated());
-        $quiz->save();
         $quiz->categories()->sync($request->category_ids);
 
         return new JsonResponse([

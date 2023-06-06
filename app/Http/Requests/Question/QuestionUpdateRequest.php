@@ -4,7 +4,7 @@ namespace App\Http\Requests\Question;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class QuestionStoreRequest extends FormRequest
+class QuestionUpdateRequest extends FormRequest
 {
     use QuestionValidation;
 

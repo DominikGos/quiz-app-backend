@@ -34,6 +34,8 @@ Route::middleware('auth:sanctum')->group(function() {
 
     Route::group(['as' => 'questions.', 'prefix' => '/questions'], function() {
         Route::post('', [QuestionController::class, 'store'])->name('store');
+
+        Route::put('/{id}', [QuestionController::class, 'update'])->name('update');
     });
 
     Route::group(['as' => 'answers.', 'prefix' => '/answers'], function() {

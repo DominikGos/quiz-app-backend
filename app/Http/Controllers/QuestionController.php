@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Question\QuestionStoreRequest;
+use App\Http\Requests\Question\QuestionUpdateRequest;
 use App\Http\Resources\QuestionResource;
 use App\Models\Question;
 use App\Models\Quiz;
@@ -31,5 +32,15 @@ class QuestionController extends Controller
         return new JsonResponse([
             'question' => QuestionResource::make($question)
         ], 201);
+    }
+
+    public function update(QuestionUpdateRequest $request, int $id): JsonResponse
+    {
+        $question = Question::findOrFail($id);
+        $question->update($request->validated());
+
+        return new JsonResponse([
+            'question' => QuestionResource::make($question)
+        ]);
     }
 }
