@@ -86,4 +86,41 @@ class QuestionTest extends TestCase
         $response
             ->assertForbidden();
     }
+
+    public function test_user_can_update_question_in_his_own_quiz(): void
+    {
+        $user = $this->user;
+        $quiz = $this->quiz;
+        $question = $this->question;
+        $updatedQuestionData = Question::factory()->make();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->putJson(route('questions.update', $question->id), [
+            'content' => $updatedQuestionData->content,
+            'quiz_id' => $quiz->id
+        ]);
+
+        $response
+            ->assertOk()
+            ->assertJsonPath('question.content', $updatedQuestionData->content);
+    }
+
+    public function test_user_cannot_update_question_that_does_not_belong_to_his_quiz(): void
+    {
+        $user = User::factory()->create();
+        $quiz = $this->quiz;
+        $question = $this->question;
+        $updatedQuestionData = Question::factory()->make();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->putJson(route('questions.update', $question->id), [
+            'content' => $updatedQuestionData->content,
+            'quiz_id' => $quiz->id
+        ]);
+
+        $response
+            ->assertForbidden();
+    }
 }
