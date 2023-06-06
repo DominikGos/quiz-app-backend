@@ -4,10 +4,10 @@ namespace App\Http\Requests\Answer;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AnswerStoreRequest extends FormRequest
+class AnswerUpdateRequest extends FormRequest
 {
     use AnswerValidation;
-    
+
     /**
      * Determine if the user is authorized to make this request.
      */

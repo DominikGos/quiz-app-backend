@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Answer\AnswerStoreRequest;
+use App\Http\Requests\Answer\AnswerUpdateRequest;
 use App\Http\Resources\AnswerResource;
 use App\Models\Answer;
 use App\Models\Question;
@@ -33,5 +34,15 @@ class AnswerController extends Controller
         return new JsonResponse([
             'answer' => AnswerResource::make($answer)
         ], 201);
+    }
+
+    public function update(AnswerUpdateRequest $request, int $id): JsonResponse
+    {
+        $answer = Answer::findOrFail($id);
+        $answer->update($request->validated());
+
+        return new JsonResponse([
+            'answer' => AnswerResource::make($answer)
+        ]);
     }
 }
