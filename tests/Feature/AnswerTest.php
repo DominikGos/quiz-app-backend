@@ -88,4 +88,68 @@ class AnswerTest extends TestCase
             ->assertForbidden()
             ->assertJsonMissingPath('answer.content');
     }
+
+    public function test_user_can_update_answer_in_own_quiz(): void
+    {
+        $user = $this->user;
+        $answer = $this->answer;
+        $updatedAnswerData = Answer::factory()->make();
+        $question = $this->question;
+
+        Sanctum::actingAs($user);
+
+        $response = $this->putJson(route('answers.update', $answer->id), [
+            'content' => $updatedAnswerData->content,
+            'question_id' => $question->id
+        ]);
+
+        $response
+            ->assertOk()
+            ->assertJsonPath('answer.content', $updatedAnswerData->content);
+    }
+
+    public function test_user_cannot_update_answer_in_quiz_he_is_not_author_of(): void
+    {
+        $user = User::factory()->create();
+        $answer = $this->answer;
+        $updatedAnswerData = Answer::factory()->make();
+        $question = $this->question;
+
+        Sanctum::actingAs($user);
+
+        $response = $this->putJson(route('answers.update', $answer->id), [
+            'content' => $updatedAnswerData->content,
+            'question_id' => $question->id
+        ]);
+
+        $response
+            ->assertForbidden()
+            ->assertJsonMissingPath('answer.content');
+    }
+
+    public function test_user_can_delete_answer_in_his_own_quiz(): void
+    {
+        $user = $this->user;
+        $answer = $this->answer;
+
+        Sanctum::actingAs($user);
+
+        $response = $this->deleteJson(route('answers.destroy', $answer->id));
+
+        $response
+            ->assertNoContent();
+    }
+
+    public function test_user_cannot_delete_answer_in_quiz_he_is_not_author_of(): void
+    {
+        $user = User::factory()->create();
+        $answer = $this->answer;
+
+        Sanctum::actingAs($user);
+
+        $response = $this->deleteJson(route('answers.destroy', $answer->id));
+
+        $response
+            ->assertForbidden();
+    }
 }
