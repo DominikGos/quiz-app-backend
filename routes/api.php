@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\UserController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -61,6 +62,12 @@ Route::group(['as' => 'questions.', 'prefix' => '/questions'], function() {
 
 Route::group(['as' => 'answers.', 'prefix' => '/answers'], function() {
     Route::get('/{id}', [AnswerController::class, 'show'])->name('get');
+});
+
+Route::group(['as' => 'users.', 'prefix' => '/users'], function() {
+    Route::get('', [UserController::class, 'index'])->name('index');
+
+    Route::get('/{id}', [UserController::class, 'show'])->name('show');
 });
 
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
