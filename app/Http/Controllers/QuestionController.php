@@ -43,4 +43,12 @@ class QuestionController extends Controller
             'question' => QuestionResource::make($question)
         ]);
     }
+
+    public function destroy(int $id): JsonResponse
+    {
+        $question = Question::findOrFail($id);
+        $question->delete();
+
+        return new JsonResponse(null, 204);
+    }
 }

@@ -123,4 +123,31 @@ class QuestionTest extends TestCase
         $response
             ->assertForbidden();
     }
+
+    public function test_user_can_delete_question_in_own_quiz(): void
+    {
+        $user = $this->user;
+        $quiz = $this->quiz;
+        $question = $this->question;
+
+        Sanctum::actingAs($user);
+
+        $response = $this->deleteJson(route('questions.destroy', $question->id));
+
+        $response
+            ->assertNoContent();
+    }
+
+    public function test_user_cannot_delete_question_in_quiz_he_is_not_author_of(): void
+    {
+        $user = User::factory()->create();
+        $question = $this->question;
+
+        Sanctum::actingAs($user);
+
+        $response = $this->deleteJson(route('questions.destroy', $question->id));
+
+        $response
+            ->assertForbidden();
+    }
 }
