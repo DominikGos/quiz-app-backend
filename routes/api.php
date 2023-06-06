@@ -44,6 +44,8 @@ Route::middleware('auth:sanctum')->group(function() {
         Route::post('', [AnswerController::class, 'store'])->name('store');
 
         Route::put('/{id}', [AnswerController::class, 'update'])->name('update');
+
+        Route::delete('/{id}', [AnswerController::class, 'destroy'])->name('destroy');
     });
 });
 

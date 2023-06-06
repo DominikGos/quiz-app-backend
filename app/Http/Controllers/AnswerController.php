@@ -45,4 +45,12 @@ class AnswerController extends Controller
             'answer' => AnswerResource::make($answer)
         ]);
     }
+
+    public function destroy(int $id): JsonResponse
+    {
+        $answer = Answer::findOrFail($id);
+        $answer->delete();
+
+        return new JsonResponse(null, 204);
+    }
 }
