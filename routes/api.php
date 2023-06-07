@@ -53,6 +53,10 @@ Route::middleware('auth:sanctum')->group(function() {
         Route::put('/{id}', [UserController::class, 'update'])->name('update');
 
         Route::delete('/{id}', [UserController::class, 'destroy'])->name('destroy');
+
+        Route::post('/avatar', [UserController::class, 'storeAvatar'])->name('avatar.store');
+
+        Route::delete('/avatar', [UserController::class, 'destroyAvatar'])->name('avatar.destroy');
     });
 });
 

@@ -25,6 +25,16 @@ class FileService
 
     public function destroy(string $filePath): void
     {
-        Storage::disk($this->disk)->delete($filePath);
+        $fileName = $this->getFileName($filePath);
+
+        Storage::disk($this->disk)->delete($fileName);
+    }
+
+    private function getFileName(string $linkToFile): string
+    {
+        $filePath = explode('storage/', $linkToFile);
+        $filePath = end($filePath);
+
+        return $filePath;
     }
 }
