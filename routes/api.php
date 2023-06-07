@@ -48,6 +48,10 @@ Route::middleware('auth:sanctum')->group(function() {
 
         Route::delete('/{id}', [AnswerController::class, 'destroy'])->name('destroy');
     });
+
+    Route::group(['as' => 'users.', 'prefix' => '/users'], function() {
+        Route::put('/{id}', [UserController::class, 'update'])->name('update');
+    });
 });
 
 Route::group(['as' => 'quizzes.', 'prefix' => '/quizzes'], function() {
