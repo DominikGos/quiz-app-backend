@@ -2,8 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class UserTest extends TestCase
@@ -36,5 +38,64 @@ class UserTest extends TestCase
 
         $response
             ->assertNotFound();
+    }
+
+    public function test_user_can_update_own_profile(): void
+    {
+        $user = $this->user;
+        $updatedUserData = User::factory()->make();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->putJson(route('users.update', $user->id), [
+            'name' => $updatedUserData->name,
+            'email' => $updatedUserData->email
+        ]);
+
+        $response
+            ->assertOk()
+            ->assertJsonPath('user.name', $updatedUserData->name);
+    }
+
+    public function test_user_cannot_update_not_his_profile(): void
+    {
+        $user = $this->user;
+        $profile = User::factory()->create();
+        $updatedUserData = User::factory()->make();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->putJson(route('users.update', $profile->id), [
+            'name' => $updatedUserData->name,
+            'email' => $updatedUserData->email
+        ]);
+
+        $response
+            ->assertForbidden();
+    }
+
+    public function test_user_can_delete_own_profile(): void
+    {
+        $user = $this->user;
+
+        Sanctum::actingAs($user);
+
+        $response = $this->deleteJson(route('users.destroy', $user->id));
+
+        $response
+            ->assertNoContent();
+    }
+
+    public function test_user_cannot_delete_not_his_profile(): void
+    {
+        $user = $this->user;
+        $profile = User::factory()->create();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->deleteJson(route('users.destroy', $profile->id));
+
+        $response
+            ->assertForbidden();
     }
 }
