@@ -37,4 +37,12 @@ class UserController extends Controller
             'user' => UserResource::make($user)
         ]);
     }
+
+    public function destroy(int $id): JsonResponse
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return new JsonResponse(null, 204);
+    }
 }
