@@ -60,17 +60,18 @@ class UserController extends Controller
 
     public function storeAvatar(FileStoreRequest $request): JsonResponse
     {
-        $imagePath = $this->fileService->store($request->file('file'));
+        $avatarLink = $this->fileService->store($request->file('file'));
 
         return new JsonResponse([
-            'avatarPath' => $imagePath,
+            'avatarLink' => $avatarLink,
         ], 201);
     }
 
     public function destroyAvatar(FileDestroyRequest $request): JsonResponse
     {
         $this->fileService->destroy($request->file_path);
-
+        //delete image from db
+        
         return new JsonResponse(null, 204);
     }
 }

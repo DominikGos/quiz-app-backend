@@ -23,14 +23,14 @@ class FileService
         return asset('storage/' . $path);
     }
 
-    public function destroy(string $filePath): void
+    public function destroy(string $fileLink): void
     {
-        $fileName = $this->getFileName($filePath);
+        $filePath = $this->getFilePath($fileLink);
 
-        Storage::disk($this->disk)->delete($fileName);
+        Storage::disk($this->disk)->delete($filePath);
     }
 
-    private function getFileName(string $linkToFile): string
+    public function getFilePath(string $linkToFile): string
     {
         $filePath = explode('storage/', $linkToFile);
         $filePath = end($filePath);
