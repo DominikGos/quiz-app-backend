@@ -13,6 +13,7 @@ class Question extends Model
 
     protected $fillable = [
         'content',
+        'image'
     ];
 
     public function answers(): HasMany

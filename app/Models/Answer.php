@@ -12,6 +12,7 @@ class Answer extends Model
 
     protected $fillable = [
         'content',
+        'image'
     ];
 
     public function question(): BelongsTo
