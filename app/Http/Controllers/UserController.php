@@ -69,9 +69,8 @@ class UserController extends Controller
 
     public function destroyAvatar(FileDestroyRequest $request): JsonResponse
     {
-        $this->fileService->destroy($request->file_path);
-        //delete image from db
-        
+        $this->fileService->destroy($request->file_link);
+
         return new JsonResponse(null, 204);
     }
 }

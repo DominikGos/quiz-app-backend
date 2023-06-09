@@ -22,7 +22,7 @@ class FileDestroyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'file_path' => 'string|required|max:255'
+            'file_link' => 'string|required|max:255'
         ];
     }
 }

@@ -31,6 +31,10 @@ Route::middleware('auth:sanctum')->group(function() {
         Route::put('/{id}', [QuizController::class, 'update'])->name('update');
 
         Route::delete('/{id}', [QuizController::class, 'destroy'])->name('destroy');
+
+        Route::post('/image', [QuizController::class, 'storeImage'])->name('image.store');
+
+        Route::delete('/image', [QuizController::class, 'destroyImage'])->name('image.destroy');
     });
 
     Route::group(['as' => 'questions.', 'prefix' => '/questions'], function() {
