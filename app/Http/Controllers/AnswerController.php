@@ -2,17 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\HasImage;
 use App\Http\Requests\Answer\AnswerStoreRequest;
 use App\Http\Requests\Answer\AnswerUpdateRequest;
 use App\Http\Resources\AnswerResource;
 use App\Models\Answer;
 use App\Models\Question;
-use App\Models\Quiz;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class AnswerController extends Controller
 {
+    use HasImage;
+
+    private const ANSWER_FILES_DIRECTORY = 'answer';
+
+    public function __construct()
+    {
+        $this->configureFileService(self::ANSWER_FILES_DIRECTORY);
+    }
+
     public function show(int $id): JsonResponse
     {
         $answer = Answer::findOrFail($id);
