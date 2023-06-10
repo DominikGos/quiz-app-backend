@@ -2,24 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\File\FileDestroyRequest;
-use App\Http\Requests\File\FileStoreRequest;
+use App\Http\HasImage;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use App\Services\FileService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    private FileService $fileService;
-    private const FILE_DISK = 'public';
+    use HasImage;
+
     private const USER_FILES_DIRECTORY = 'user';
 
     public function __construct()
     {
-        $this->fileService = new FileService(self::USER_FILES_DIRECTORY, self::FILE_DISK);
+        $this->configureFileService(self::USER_FILES_DIRECTORY);
     }
 
     public function index(): JsonResponse
@@ -54,22 +51,6 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
-
-        return new JsonResponse(null, 204);
-    }
-
-    public function storeAvatar(FileStoreRequest $request): JsonResponse
-    {
-        $avatarLink = $this->fileService->store($request->file('file'));
-
-        return new JsonResponse([
-            'avatarLink' => $avatarLink,
-        ], 201);
-    }
-
-    public function destroyAvatar(FileDestroyRequest $request): JsonResponse
-    {
-        $this->fileService->destroy($request->file_link);
 
         return new JsonResponse(null, 204);
     }
