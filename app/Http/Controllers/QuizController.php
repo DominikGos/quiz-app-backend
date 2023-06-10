@@ -24,7 +24,7 @@ class QuizController extends Controller
 
     public function index(): JsonResponse
     {
-        $quizzes = Quiz::all();
+        $quizzes = Quiz::published()->get();
 
         return new JsonResponse([
             'quizzes' => QuizResource::collection($quizzes)
@@ -33,7 +33,7 @@ class QuizController extends Controller
 
     public function show(int $id): JsonResponse
     {
-        $quiz = Quiz::with(['user', 'categories', 'questions'])->findOrFail($id);
+        $quiz = Quiz::published()->with(['user', 'categories', 'questions'])->findOrFail($id);
 
         return new JsonResponse([
             'quiz' => QuizResource::make($quiz)
