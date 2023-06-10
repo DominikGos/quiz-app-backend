@@ -135,4 +135,31 @@ class QuizTest extends TestCase
         $response
             ->assertForbidden();
     }
+
+    public function test_user_can_publish_own_quiz(): void
+    {
+        $user = $this->user;
+        $quiz = $this->quiz;
+
+        Sanctum::actingAs($user);
+
+        $response = $this->putJson(route('quizzes.publish', $quiz->id));
+
+        $response
+            ->assertOk()
+            ->assertJsonPath('quiz.isPublished', true);
+    }
+
+    public function test_user_cannot_publish_quiz_he_is_not_author_of(): void
+    {
+        $user = User::factory()->create();
+        $quiz = $this->quiz;
+
+        Sanctum::actingAs($user);
+
+        $response = $this->putJson(route('quizzes.publish', $quiz->id));
+
+        $response
+            ->assertForbidden();
+    }
 }
