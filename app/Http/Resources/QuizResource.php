@@ -19,8 +19,9 @@ class QuizResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'image' => $this->image,
+            'isPublished' => $this->is_published,
             'timestamps' => TimestampsResource::make($this),
-            'user' => $this->whenLoaded('user'),
+            'user' => UserResource::make($this->whenLoaded('user')),
             'questions' => QuestionResource::collection($this->whenLoaded('questions')),
             'categories' => CategoryResource::collection($this->whenLoaded('categories'))
         ];
