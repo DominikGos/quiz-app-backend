@@ -2,27 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\File\FileDestroyRequest;
-use App\Http\Requests\File\FileStoreRequest;
+use App\Http\HasImage;
 use App\Http\Requests\Quiz\QuizStoreRequest;
 use App\Http\Requests\Quiz\QuizUpdateRequest;
 use App\Http\Resources\QuizResource;
-use App\Models\Category;
 use App\Models\Quiz;
-use App\Services\FileService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class QuizController extends Controller
 {
-    private FileService $fileService;
-    private const FILE_DISK = 'public';
+    use HasImage;
+
     private const QUIZ_FILES_DIRECTORY = 'quiz';
 
     public function __construct()
     {
-        $this->fileService = new FileService(self::QUIZ_FILES_DIRECTORY, self::FILE_DISK);
+        $this->configureFileService(self::QUIZ_FILES_DIRECTORY);
     }
 
     public function index(): JsonResponse
@@ -71,22 +67,6 @@ class QuizController extends Controller
     {
         $quiz = Quiz::findOrFail($id);
         $quiz->delete();
-
-        return new JsonResponse(null, 204);
-    }
-
-    public function storeImage(FileStoreRequest $request): JsonResponse
-    {
-        $imageLink = $this->fileService->store($request->file('file'));
-
-        return new JsonResponse([
-            'imageLink' => $imageLink,
-        ], 201);
-    }
-
-    public function destroyImage(FileDestroyRequest $request): JsonResponse
-    {
-        $this->fileService->destroy($request->file_link);
 
         return new JsonResponse(null, 204);
     }
