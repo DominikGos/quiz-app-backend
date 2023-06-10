@@ -19,6 +19,7 @@ class QuizFactory extends Factory
         return [
             'name' => fake()->text(20),
             'description' => fake()->text(40),
+            'is_published' => fake()->randomElement([true, false]),
             'image' => fake()->filePath(),
         ];
     }

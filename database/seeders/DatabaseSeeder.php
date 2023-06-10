@@ -31,7 +31,9 @@ class DatabaseSeeder extends Seeder
 
         $user = User::factory()->create(['name' => 'user', 'email' => 'user@email.com']);
 
-        $quiz = Quiz::factory()->for($user)->create();
+        $quiz = Quiz::factory(['is_published' => true])->for($user)->create();
+
+        $unpublishedQuiz = Quiz::factory(['is_published' => false])->for($user)->create();
 
         $question = Question::factory()->for($quiz)->create();
 

@@ -16,6 +16,7 @@ abstract class TestCase extends BaseTestCase
 
     protected $seed = true;
     protected Quiz $quiz;
+    protected Quiz $unpublishedQuiz;
     protected Question $question;
     protected Answer $answer;
     protected User $user;
@@ -25,6 +26,7 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         $this->quiz = Quiz::first();
+        $this->unpublishedQuiz = Quiz::where('is_published', false)->first();
         $this->question = Question::first();
         $this->answer = Answer::first();
         $this->user = User::first();
