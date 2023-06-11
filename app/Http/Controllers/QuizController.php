@@ -56,6 +56,9 @@ class QuizController extends Controller
     public function update(QuizUpdateRequest $request, int $id): JsonResponse
     {
         $quiz = Quiz::with(['categories'])->findOrFail($id);
+
+        $this->authorize('update', $quiz);
+
         $quiz->update($request->validated());
         $quiz->categories()->sync($request->category_ids);
 
@@ -67,6 +70,9 @@ class QuizController extends Controller
     public function destroy(int $id): JsonResponse
     {
         $quiz = Quiz::findOrFail($id);
+
+        $this->authorize('destroy', $quiz);
+
         $quiz->delete();
 
         return new JsonResponse(null, 204);
@@ -76,6 +82,8 @@ class QuizController extends Controller
     {
         $quiz = $this->quizService->setPublishedStatus($id, true);
 
+        $this->authorize('publish', $quiz);
+
         return new JsonResponse([
             'quiz' => QuizResource::make($quiz)
         ]);
@@ -84,6 +92,8 @@ class QuizController extends Controller
     public function unpublish(int $id): JsonResponse
     {
         $quiz = $this->quizService->setPublishedStatus($id, false);
+
+        $this->authorize('unpublish', $quiz);
 
         return new JsonResponse([
             'quiz' => QuizResource::make($quiz)
