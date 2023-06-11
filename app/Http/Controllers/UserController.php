@@ -30,7 +30,7 @@ class UserController extends Controller
 
     public function show(int $id): JsonResponse
     {
-        $user = User::findOrFail($id);
+        $user = User::with(['quizzes'])->findOrFail($id);
 
         return new JsonResponse([
             'user' => UserResource::make($user)
@@ -40,6 +40,9 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request, int $id): JsonResponse
     {
         $user = User::findOrFail($id);
+
+        $this->authorize('update', $user);
+
         $user->update($request->validated());
 
         return new JsonResponse([
@@ -50,6 +53,9 @@ class UserController extends Controller
     public function destroy(int $id): JsonResponse
     {
         $user = User::findOrFail($id);
+
+        $this->authorize('destroy', $user);
+
         $user->delete();
 
         return new JsonResponse(null, 204);
