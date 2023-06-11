@@ -32,8 +32,10 @@ class QuestionController extends Controller
 
     public function store(QuestionStoreRequest $request): JsonResponse
     {
-        //check if user is author of the quiz!
         $quiz = Quiz::findOrFail($request->quiz_id);
+
+        $this->authorize('storeQuestion', $quiz);
+
         $question = new Question($request->validated());
         $question->quiz()->associate($quiz);
         $question->save();
@@ -46,6 +48,9 @@ class QuestionController extends Controller
     public function update(QuestionUpdateRequest $request, int $id): JsonResponse
     {
         $question = Question::findOrFail($id);
+
+        $this->authorize('updateQuestion', $question->quiz);
+
         $question->update($request->validated());
 
         return new JsonResponse([
@@ -56,6 +61,9 @@ class QuestionController extends Controller
     public function destroy(int $id): JsonResponse
     {
         $question = Question::findOrFail($id);
+
+        $this->authorize('destroyQuestion', $question->quiz);
+
         $question->delete();
 
         return new JsonResponse(null, 204);
