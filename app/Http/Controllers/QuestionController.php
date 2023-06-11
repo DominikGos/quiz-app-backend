@@ -33,11 +33,11 @@ class QuestionController extends Controller
     public function store(QuestionStoreRequest $request): JsonResponse
     {
         $quiz = Quiz::findOrFail($request->quiz_id);
-
-        $this->authorize('storeQuestion', $quiz);
-
         $question = new Question($request->validated());
         $question->quiz()->associate($quiz);
+
+        $this->authorize('store', $question);
+
         $question->save();
 
         return new JsonResponse([
@@ -49,7 +49,7 @@ class QuestionController extends Controller
     {
         $question = Question::findOrFail($id);
 
-        $this->authorize('updateQuestion', $question->quiz);
+        $this->authorize('update', $question);
 
         $question->update($request->validated());
 
@@ -62,7 +62,7 @@ class QuestionController extends Controller
     {
         $question = Question::findOrFail($id);
 
-        $this->authorize('destroyQuestion', $question->quiz);
+        $this->authorize('destroy', $question);
 
         $question->delete();
 
