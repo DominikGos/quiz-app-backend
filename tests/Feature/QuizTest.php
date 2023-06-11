@@ -36,13 +36,60 @@ class QuizTest extends TestCase
 
     public function test_user_can_view_quiz_list(): void
     {
-        $quizzes[] = $this->quiz;
-
         $response = $this->getJson(route('quizzes.index'));
 
         $response
             ->assertOk()
             ->assertJsonIsArray('quizzes');
+    }
+
+    public function test_user_cannot_view_unpublished_quiz_he_is_not_author_of(): void
+    {
+        $unpublishedQuiz = $this->unpublishedQuiz;
+
+        $response = $this->getJson(route('quizzes.get', ['id' => $unpublishedQuiz->id]));
+
+        $response
+            ->assertNotFound();
+    }
+
+    public function test_user_can_view_his_own_unpublished_quiz(): void
+    {
+        $user = $this->user;
+        $unpublishedQuiz = $this->unpublishedQuiz;
+
+        Sanctum::actingAs($user);
+
+        $response = $this->getJson(route('quizzes.get', ['id' => $unpublishedQuiz->id]));
+
+        $response
+            ->assertOk()
+            ->assertJsonPath('quiz.isPublished', false)
+            ->assertJsonPath('quiz.name', $unpublishedQuiz->name);
+    }
+
+    public function test_user_cannot_view_unpublished_quizzes_he_is_not_author_of(): void
+    {
+        $response = $this->getJson(route('quizzes.index'));
+
+        $response
+            ->assertOk()
+            ->assertJsonMissingExact(['isPublished' => false]);
+    }
+
+    public function test_user_can_view_his_own_unpublished_quiz_in_quiz_list(): void
+    {
+        $user = $this->user;
+        $unpublishedQuiz = $this->unpublishedQuiz;
+
+        Sanctum::actingAs($user);
+
+        $response = $this->getJson(route('quizzes.index'));
+
+        $response
+            ->assertOk()
+            ->assertJsonFragment(['isPublished' => false])
+            ->assertJsonFragment(['name' => $unpublishedQuiz->name]);
     }
 
     public function test_user_can_store_quiz_with_correct_credentials(): void
