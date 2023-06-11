@@ -11,6 +11,8 @@ class Question extends Model
 {
     use HasFactory;
 
+    static int $limitOfAnswers = 4;
+
     protected $fillable = [
         'content',
         'image'

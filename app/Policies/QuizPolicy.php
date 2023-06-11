@@ -34,12 +34,22 @@ class QuizPolicy
         return $this->whetherUserIsAuthorOf($user, $quiz);
     }
 
+    public function updateQuestion(User $user, Quiz $quiz): bool
+    {
+        return $this->whetherUserIsAuthorOf($user, $quiz);
+    }
+
     public function destroyQuestion(User $user, Quiz $quiz): bool
     {
         return $this->whetherUserIsAuthorOf($user, $quiz);
     }
 
-    public function updateQuestion(User $user, Quiz $quiz): bool
+    public function updateAnswer(User $user, Quiz $quiz): bool
+    {
+        return $this->whetherUserIsAuthorOf($user, $quiz);
+    }
+
+    public function destroyAnswer(User $user, Quiz $quiz): bool
     {
         return $this->whetherUserIsAuthorOf($user, $quiz);
     }

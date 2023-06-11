@@ -32,9 +32,10 @@ class AnswerController extends Controller
 
     public function store(AnswerStoreRequest $request): JsonResponse
     {
-        //check if user is author of the quiz
-        //chcek if question has less than 5 answers
         $question = Question::findOrFail($request->question_id);
+
+        $this->authorize('storeAnswer', $question);
+
         $answer = new Answer($request->validated());
         $answer->question()->associate($question);
         $answer->save();
@@ -47,6 +48,9 @@ class AnswerController extends Controller
     public function update(AnswerUpdateRequest $request, int $id): JsonResponse
     {
         $answer = Answer::findOrFail($id);
+
+        $this->authorize('updateAnswer', $answer->question->quiz);
+
         $answer->update($request->validated());
 
         return new JsonResponse([
@@ -57,6 +61,9 @@ class AnswerController extends Controller
     public function destroy(int $id): JsonResponse
     {
         $answer = Answer::findOrFail($id);
+
+        $this->authorize('destroyAnswer', $answer->question->quiz);
+
         $answer->delete();
 
         return new JsonResponse(null, 204);
