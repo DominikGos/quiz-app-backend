@@ -20,7 +20,8 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'avatar' => $this->avatar,
             'description' => $this->description,
-            'timestamps' => TimestampsResource::make($this)
+            'timestamps' => TimestampsResource::make($this),
+            'quizzes' => QuizResource::collection($this->whenLoaded('quizzes')),
         ];
     }
 }
