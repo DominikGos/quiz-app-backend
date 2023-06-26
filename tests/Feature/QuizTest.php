@@ -209,4 +209,15 @@ class QuizTest extends TestCase
         $response
             ->assertForbidden();
     }
+
+    public function test_user_can_view_list_of_questions_from_given_quiz(): void
+    {
+        $quiz = $this->quiz;
+
+        $response = $this->getJson(route('quizzes.questions.index', ['id' => $quiz->id]));
+
+        $response
+            ->assertOk()
+            ->assertJsonIsArray('questions');
+    }
 }
