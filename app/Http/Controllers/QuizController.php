@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\HasImage;
 use App\Http\Requests\Quiz\QuizStoreRequest;
 use App\Http\Requests\Quiz\QuizUpdateRequest;
+use App\Http\Resources\QuestionResource;
 use App\Http\Resources\QuizResource;
 use App\Models\Quiz;
 use App\Services\QuizService;
@@ -33,7 +34,7 @@ class QuizController extends Controller
 
     public function show(int $id): JsonResponse
     {
-        $quiz = Quiz::published()->with(['user', 'categories', 'questions'])->findOrFail($id);
+        $quiz = Quiz::published()->with(['user', 'categories'])->findOrFail($id);
 
         return new JsonResponse([
             'quiz' => QuizResource::make($quiz)
@@ -97,6 +98,16 @@ class QuizController extends Controller
 
         return new JsonResponse([
             'quiz' => QuizResource::make($quiz)
+        ]);
+    }
+
+    public function questions(int $quizId): JsonResponse
+    {
+        $quiz = Quiz::published()->findOrFail($quizId);
+        $questions = $quiz->questions()->with(['answers'])->get();
+
+        return new JsonResponse([
+            'questions' => QuestionResource::collection($questions)
         ]);
     }
 }

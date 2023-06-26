@@ -22,7 +22,6 @@ class QuizResource extends JsonResource
             'isPublished' => (bool) $this->is_published,
             'timestamps' => TimestampsResource::make($this),
             'user' => UserResource::make($this->whenLoaded('user')),
-            'questions' => QuestionResource::collection($this->whenLoaded('questions')),
             'categories' => CategoryResource::collection($this->whenLoaded('categories'))
         ];
     }

@@ -80,6 +80,8 @@ Route::group(['as' => 'quizzes.', 'prefix' => '/quizzes'], function() {
     Route::get('', [QuizController::class, 'index'])->name('index');
 
     Route::get('/{id}', [QuizController::class, 'show'])->name('get');
+
+    Route::get('/{id}/questions', [QuizController::class, 'questions'])->name('questions.index');
 });
 
 Route::group(['as' => 'questions.', 'prefix' => '/questions'], function() {
