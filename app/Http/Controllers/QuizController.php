@@ -25,7 +25,7 @@ class QuizController extends Controller
 
     public function index(): JsonResponse
     {
-        $quizzes = Quiz::published()->get();
+        $quizzes = Quiz::published()->orderBy('id', 'desc')->get();
 
         return new JsonResponse([
             'quizzes' => QuizResource::collection($quizzes)
