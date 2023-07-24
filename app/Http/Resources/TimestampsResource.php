@@ -11,6 +11,12 @@ class TimestampsResource extends JsonResource
     private function formatDate(array $timestamps): array
     {
         foreach($timestamps as $key => $timestamp) {
+            if( ! $timestamp) {
+                $timestamps[$key] = null;
+
+                continue;
+            }
+
             $now = now();
             $timestamps[$key] = Carbon::parse($timestamps[$key]);
 
