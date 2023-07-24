@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call([CategorySeeder::class]);
+
         Schema::disableForeignKeyConstraints();
         DB::table('users')->truncate();
         DB::table('quizzes')->truncate();
