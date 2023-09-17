@@ -22,7 +22,7 @@ It is a rest api which handles backend logic for a quiz application. The main go
  * Laravel Telescope 4.14
  * FakerPHP 1.9.1
 
-## Instalation:
+## Installation:
 
 ```bash
     git clone https://github.com/DominikGos/quiz-app-backend.git
@@ -34,5 +34,5 @@ It is a rest api which handles backend logic for a quiz application. The main go
     cp .env.example .env
 ```
 ```bash
-    php artisan key 
+    php artisan key:generate 
 ```
